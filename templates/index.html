@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}漏洞列表{% endblock %}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        漏洞列表
+        <small>assets list</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">漏洞列表</li>
+      </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+        <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">漏洞列表</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="assets_table" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>序号</th>
+              <th>标题</th>
+              <th>应用名称</th>
+              <th>开发人员</th>
+              <th>漏洞等级</th>
+              <th>漏洞状态</th>
+              <th>提交人</th>
+              <th>提交日期</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for asset in assets %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+{#                  <td>{{ asset.title }}</td>#}
+                    <td><a href="/detail/{{ asset.id }}">{{ asset.title }}</a></td>
+{#                    <td><label class="label label-default">{{ asset.title }}</label></td>#}
+                    <td>{{ asset.name }}</td>
+{#                      <td><label class="label label-default">{{ asset.name }}</label></td>#}
+                   <td>{{ asset.developuser }}</td>
+                  {% if asset.level == 3 %}
+                      <td class="text-green text-bold">低危</td>
+                  {% elif asset.level == 2 %}
+                      <td class="text-yellow text-bold">中危</td>
+                  {% elif asset.level == 1 %}
+                      <td class="text-red text-bold">高危</td>
+                  {% endif %}
+                    {% if asset.status == 1 %}
+                      <td><label class="label label-success">新提交</label></td>
+                    {% elif asset.status == 2 %}
+                      <td><label class="label label-warning">正在处理</label></td>
+                    {% elif asset.status == 3 %}
+                    <td><label class="label label-info">已修复，待验证</label></td>
+                    {% elif asset.status == 4 %}
+                    <td><label class="label label-default">确认修复</label></td>
+                     {% elif asset.status == 5 %}
+                    <td><label class="label label-danger">已驳回</label></td>
+                    {% endif %}
+{#                <td>{{ asset.putuser }}</td>#}
+                      <td>{{ asset.putuser }}</td>
+{#                <td>{{ asset.data_time }}</td>#}
+                      <td>{{ asset.data_time }}</td>
+                </tr>
+                {% empty %}
+                  <tr>没有数据！</tr>
+                {% endfor %}
+
+            </tbody>
+
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+        </div>
+    <!-- /.col -->
+      </div>
+    <!-- /.row -->
+    </section>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+$(function () {
+        $('#assets_table').DataTable({
+          "paging": true,       <!-- 允许分页 -->
+          "lengthChange": true, <!-- 允许改变每页显示的行数 -->
+          "searching": true,    <!-- 允许内容搜索 -->
+          "ordering": true,     <!-- 允许排序 -->
+          "info": true,         <!-- 显示信息 -->
+          "autoWidth": false    <!-- 固定宽度 -->
+        });
+      });
+</script>
+
+
+{% endblock %}

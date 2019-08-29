@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}用户列表{% endblock %}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static 'AdminLTE/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css' %}">
+{% endblock %}
+
+{% block breadcrumb %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        用户列表
+        <small>user list</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">用户列表</li>
+      </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+        <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">用户列表</h3>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <table id="assets_table" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+              <th>用户ID</th>
+              <th>用户名</th>
+              <th>用户邮箱</th>
+              <th>用户部门</th>
+              <th>联系电话</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for asset in assets %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                    <td><label class="label label-default">{{ asset.username }}</label></td>
+
+                    <td>{{ asset.email }}</td>
+                    {% if asset.depart %}
+                        <td>{{ asset.depart }}</td>
+                        {% else %}
+                        <td></td>
+                    {% endif %}
+
+                     {% if asset.telephone %}
+                        <td>{{ asset.telephone }}</td>
+                        {% else %}
+                        <td></td>
+                    {% endif %}
+
+                </tr>
+                {% empty %}
+                  <tr>没有数据！</tr>
+                {% endfor %}
+
+            </tbody>
+
+          </table>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+        </div>
+    <!-- /.col -->
+      </div>
+    <!-- /.row -->
+    </section>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+<script src="{% static 'AdminLTE/bower_components/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'AdminLTE/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+
+<script>
+$(function () {
+        $('#assets_table').DataTable({
+          "paging": true,       <!-- 允许分页 -->
+          "lengthChange": true, <!-- 允许改变每页显示的行数 -->
+          "searching": true,    <!-- 允许内容搜索 -->
+          "ordering": true,     <!-- 允许排序 -->
+          "info": true,         <!-- 显示信息 -->
+          "autoWidth": false    <!-- 固定宽度 -->
+        });
+      });
+</script>
+
+
+{% endblock %}

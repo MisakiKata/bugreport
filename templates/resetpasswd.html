@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}修改密码{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        修改密码
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li>修改密码</li>
+        <li class="active">修改密码</li>
+      </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+
+
+          <div class="box-body">
+            <div class="box-header with-border">
+              <h3 class="box-title">修改密码</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <form class="form-horizontal" method="POST" action="/resetpasswd/pwd/">
+                    {% csrf_token %}
+                    {% if message %}
+                        <div class="alert alert-warning">{{ message }}</div>
+                  {% endif %}
+                <div class="form-group">
+                  <label for="oldpwd" class="col-sm-2 control-label">旧密码</label>
+                  <div class="col-sm-10">
+                    <input id="oldpwd" name="oldpwd" type="password" class="form-control" placeholder="" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="newpwd" class="col-sm-2 control-label">新密码</label>
+                  <div class="col-sm-10">
+                    <input id="newpwd" name="newpwd" type="password" class="form-control" placeholder="" value="">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="newpwd_confirmation" class="col-sm-2 control-label">重复新密码</label>
+                  <div class="col-sm-10">
+                    <input id="newpwd_confirmation" name="newpwd_confirmation" type="password" class="form-control" placeholder="" value="">
+                  </div>
+                </div>
+
+                <div class="box-footer">
+                  <button type="submit" class="btn btn-info pull-right">提 交</button>
+                </div><!-- /.box-footer -->
+              </form>
+            </div><!-- /.box-body -->
+          </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <i class="fa fa-angle-double-left"></i>&nbsp;&nbsp;<a href="/index"><strong>返回漏洞列表页</strong></a>
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

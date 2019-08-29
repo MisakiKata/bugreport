@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}漏洞详情{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        漏洞详情
+        <small>vuln info</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li>漏洞详情</li>
+        <li class="active">漏洞详情</li>
+      </ol>
+    </section>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="box">
+
+      <div class="box box-info">
+          <div class="box-header with-border">
+          <h3 class="box-title">研发跟踪处理</h3>
+          </div>
+
+{#          <div class="box-body">#}
+              <dl class="dl-horizontal">
+          {% for vulndatum in vulndata %}
+                <dt><code>{{ vulndatum.add_time }}</code></dt>
+                <dd>
+                    <blockquote class="pull-left">
+                        <span style="font-size: medium">{{ vulndatum.data }}</span>
+                        <small><cite>{{ vulndatum.developuser }}</cite></small>
+                    </blockquote>
+                </dd>
+          {% endfor %}
+              </dl>
+{#          </div>#}
+{% if status != 4 %}
+
+        <div class="box-body">
+             <form class="form-horizontal" method="POST" action="/tracepid/detail/{{ id }}/">
+                 {% csrf_token %}
+                 {% if message %}
+                    <div class="alert alert-info">{{ message }}</div>
+                 {% endif %}
+                    <div class='form-group margin-bottom-none'>
+                        <div class='col-sm-8'>
+                            <input id="track_desc" name="track_desc" class="form-control" placeholder="请填写修复计划或进度">
+                            <input id="id" name="id" type="hidden" value="{{ id }}">
+                        </div>
+                        <div class='col-sm-2'>
+                            <select id="vstate" name="vstate" class="form-control select2" style="width: 100%;">
+                                <option value="2">已确认，正在修复</option>
+                                <option value="3">已修复，请验证</option>
+                                <option value="5">非漏洞，已忽略</option>
+                            </select>
+                        </div>
+                        <div class='col-sm-2'>
+                            <button class='btn btn-danger pull-right btn-block'>提 交</button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+{% endif %}
+      </div>
+        <div class="box box-info">
+        <div class="box-header with-border">
+          <div class="box-body">
+              {% if  status == 1%}
+                  <h4>漏洞详情【新提交】:</h4>
+              {% elif status == 2%}
+                  <h4>漏洞详情【正在处理】:</h4>
+              {% elif status == 3%}
+                  <h4>漏洞详情【已修复，待验证】:</h4>
+              {% elif status == 4%}
+                  <h4>漏洞详情【修复完成】:</h4>
+              {% elif status == 5%}
+                  <h4>漏洞详情【已驳回】:</h4>
+              {% endif %}
+          </div>
+            <dl class="dl-horizontal">
+                <dt><code>漏洞标题</code></dt>
+                <dd>{{ title }}</dd>
+            </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+              <dt><code>应用名称</code></dt>
+                <dd>{{ name }}</dd>
+            </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+              <dt><code>提交时间</code></dt>
+                <dd>{{ data_time }}</dd>
+            </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+            <dt><code>开发者</code></dt>
+              <dd>{{ developuser }}</dd>
+              </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+            <dt><code>漏洞等级</code></dt>
+              {% if level == 1 %}
+                  <dd>低危</dd>
+                {% elif level == 2 %}
+                  <dd>中危</dd>
+              {% elif level == 3 %}
+                  <dd>高危</dd>
+              {% endif %}
+              </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+            <dt><code>提交人</code></dt>
+              <dd>{{ putuser }}</dd>
+              </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+            <dt><code>漏洞详情</code></dt>
+              <dd>{{ vulntext | safe }}</dd>
+              </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+          <dl class="dl-horizontal">
+            <dt><code>修复建议</code></dt>
+              <dd>{{ Repairplan }}</dd>
+              </dl><hr style="height:1px;border:none;border-top:1px solid lightgray;">
+
+
+          </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          <i class="fa fa-angle-double-left"></i>&nbsp;&nbsp;<a href="/index"><strong>返回漏洞列表页</strong></a>
+        </div>
+        <!-- /.box-footer-->
+      </div>
+      <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
