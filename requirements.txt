@@ -1,0 +1,2 @@
+django-simpleui
+django-ckeditor
